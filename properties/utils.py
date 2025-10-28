@@ -47,15 +47,15 @@ def get_redis_cache_metrics():
         connected_clients = info.get('connected_clients', 0)
         used_memory = info.get('used_memory_human', '0')
 
-        # Calculate hit ratio (avoid division by zero)
-        total_operations = hits + misses
-        hit_ratio = hits / total_operations if total_operations > 0 else 0
+        # Calculate hit ratio using the exact format specified
+        total_requests = hits + misses
+        hit_ratio = hits / total_requests if total_requests > 0 else 0
 
         # Prepare metrics dictionary
         metrics = {
             'keyspace_hits': hits,
             'keyspace_misses': misses,
-            'total_operations': total_operations,
+            'total_operations': total_requests,
             'hit_ratio': round(hit_ratio, 4),
             'hit_percentage': round(hit_ratio * 100, 2),
             'total_commands_processed': total_commands,
